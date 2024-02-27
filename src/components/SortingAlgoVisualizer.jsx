@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-function SortingAlgoVisualizer(props) {
+function SortingAlgoVisualizer({arrSize, viewSpeed}) {
   const [bars, setBars] = useState([]);
-  const [selectedBarIndex, setSelectedBarIndex] = useState(null);
+  const [selectedBarIndex, setSelectedBarIndex] = useState([null, null]);
+
+  
+  const reverseSpeed = (100 - viewSpeed) + 25;
+  
+  console.log(arrSize, reverseSpeed);
 
   useEffect(() => {
     generateArray();
-  }, []);
+  }, [arrSize]);
 
   function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -14,27 +19,11 @@ function SortingAlgoVisualizer(props) {
 
   const generateArray = () => {
     const bars = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < arrSize; i++) {
       bars.push(randomIntFromInterval(5, 400));
     }
     setBars(bars);
   };
-
-//   function swap(arr, index1, index2) {
-//     if (index1 < 0 || index1 >= arr.length || index2 < 0 || index2 >= arr.length) {
-//         return arr;
-//     }
-
-//     [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
-
-//     return arr;
-// }
-
-  // const sortArr = () => {
-  //   const sortedArr = [...bars];
-  //   sortedArr.sort((a,b) => a-b);
-  //   setBars(sortedArr);
-  // };
 
   const bubbleSort = async() => {
     const arrForBubbleSort = [...bars];
@@ -45,16 +34,14 @@ function SortingAlgoVisualizer(props) {
             if(arrForBubbleSort[j] > arrForBubbleSort[j + 1]) {
                 [arrForBubbleSort[j], arrForBubbleSort[j+1]] = [arrForBubbleSort[j+1], arrForBubbleSort[j]];
 
-                setSelectedBarIndex(j);
+                setSelectedBarIndex([j,j+1]);
 
                 await new Promise((resolve) => {
                   setTimeout(() => {
                     setBars([...arrForBubbleSort]);
                     resolve();
-                  }, 10); // Adjust the delay time as needed
+                  }, reverseSpeed); // Adjust the delay time as needed
                 });
-
-
                 isSwapped = true;    
             }
         }
@@ -63,7 +50,7 @@ function SortingAlgoVisualizer(props) {
             break;
     }
 
-    setSelectedBarIndex(null);
+    setSelectedBarIndex([null,null]);
     
   };
 
@@ -72,7 +59,7 @@ function SortingAlgoVisualizer(props) {
     <div className="container">
       <div className="bar-chart">
         {bars.map((value, index) => (
-          <div key={index} className={`bar ${selectedBarIndex === index ? 'selected' : ''}`} style={{ height: `${value}px` }} />
+          <div key={index} className={`bar ${selectedBarIndex.includes(index) ? 'selected' : ''}`} style={{ height: `${value}px` }} />
         ))}
         <div className="buttons">
           <button onClick={generateArray} className="btn">
