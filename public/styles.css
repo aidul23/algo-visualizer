@@ -10,10 +10,14 @@
 }
 
 .bar {
-    width: 5px;
+    width: 10px;
     background-color: aquamarine;
     display: inline-block;
     margin: 0 2px;
+}
+
+.selected {
+    background-color: blueviolet;
 }
 
 h1 {

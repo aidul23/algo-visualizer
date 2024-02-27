@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function SortingAlgoVisualizer(props) {
   const [bars, setBars] = useState([]);
+  const [selectedBarIndex, setSelectedBarIndex] = useState(null);
 
   useEffect(() => {
     generateArray();
@@ -29,13 +30,13 @@ function SortingAlgoVisualizer(props) {
 //     return arr;
 // }
 
-  const sortArr = () => {
-    const sortedArr = [...bars];
-    sortedArr.sort((a,b) => a-b);
-    setBars(sortedArr);
-  };
+  // const sortArr = () => {
+  //   const sortedArr = [...bars];
+  //   sortedArr.sort((a,b) => a-b);
+  //   setBars(sortedArr);
+  // };
 
-  const bubbleSort = () => {
+  const bubbleSort = async() => {
     const arrForBubbleSort = [...bars];
     let isSwapped = false;
 
@@ -43,24 +44,35 @@ function SortingAlgoVisualizer(props) {
         for(let j = 0 ; j < arrForBubbleSort.length - i -1 ; j++) {
             if(arrForBubbleSort[j] > arrForBubbleSort[j + 1]) {
                 [arrForBubbleSort[j], arrForBubbleSort[j+1]] = [arrForBubbleSort[j+1], arrForBubbleSort[j]];
-                isSwapped = true;
+
+                setSelectedBarIndex(j);
+
+                await new Promise((resolve) => {
+                  setTimeout(() => {
+                    setBars([...arrForBubbleSort]);
+                    resolve();
+                  }, 10); // Adjust the delay time as needed
+                });
+
+
+                isSwapped = true;    
             }
         }
 
         if (isSwapped === false)
             break;
     }
-    setBars(arrForBubbleSort);
-  };
 
-  
+    setSelectedBarIndex(null);
+    
+  };
 
 
   return (
     <div className="container">
       <div className="bar-chart">
         {bars.map((value, index) => (
-          <div key={index} className="bar" style={{ height: `${value}px` }} />
+          <div key={index} className={`bar ${selectedBarIndex === index ? 'selected' : ''}`} style={{ height: `${value}px` }} />
         ))}
         <div className="buttons">
           <button onClick={generateArray} className="btn">
@@ -69,8 +81,8 @@ function SortingAlgoVisualizer(props) {
           <button onClick={bubbleSort} className="btn">
             Bubble Sort
           </button>
-          <button onClick={sortArr} className="btn">
-            Sort
+          <button disabled className="btn">
+            Merge Sort
           </button>
         </div>
       </div>
