@@ -1,17 +1,29 @@
-.bar-chart {
+.container {
     display: flex;
-    justify-content: center;
-    align-self: center;
+    flex-direction: column;
+    align-items: center;
+  }
+.bar-chart {
+    position: absolute;
+    margin-bottom: 20px;
+    margin-top: 50px;
 }
 
 .bar {
-    width: 30px;
-    height: 30px;
+    width: 5px;
     background-color: aquamarine;
-    display: inline;
-    margin: 0 5px;
+    display: inline-block;
+    margin: 0 2px;
 }
 
 h1 {
     text-align: center;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    margin: 0 6px;
 }
