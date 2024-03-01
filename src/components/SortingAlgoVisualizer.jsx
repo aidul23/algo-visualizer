@@ -57,11 +57,9 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
 
     for (let i = 0; i < arrSize - 1; i++) {
       let min_idx = i;
-      setSelectedBarIndex([min_idx, null]);
       for (let j = i + 1; j < arrSize; j++) {
         if (arrForBubbleSort[j] < arrForBubbleSort[min_idx]) {
           min_idx = j;
-          setSelectedBarIndex([min_idx, j]);
         } 
       }
 
