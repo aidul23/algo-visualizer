@@ -6,7 +6,7 @@
 }
 
 .header {
-  height: 140px;
+  height: 20vh;
   background-color: #436850;
   color: #fff;
   padding: 10px;
@@ -52,6 +52,19 @@ h1 {
   cursor: pointer;
 }
 
+.btn-gen {
+  margin: 10px 6px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #436850;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 .btn:disabled {
     background-color: #ccc;
     color: #999;
@@ -61,6 +74,10 @@ h1 {
 .btn:hover {
     background-color: #adbc9f;
     color: #436850;
+}
+.btn-gen:hover {
+  background-color: #adbc9f;
+  color: #436850;
 }
 
 .header {

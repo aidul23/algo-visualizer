@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { LuRefreshCcw } from "react-icons/lu";
 
 function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
   const [bars, setBars] = useState([]);
+  const [sortingInProgress, setSortingInProgress] = useState(false);
   const [selectedBarIndex, setSelectedBarIndex] = useState([null, null]);
 
   const reverseSpeed = 100 - viewSpeed + 25;
@@ -23,8 +25,9 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
   }, [generateArray]);
 
   const bubbleSort = async () => {
+    setSortingInProgress(true);
     const arrForBubbleSort = [...bars];
-    let isSwapped = false;
+    //let isSwapped = false;
 
     for (let i = 0; i < arrForBubbleSort.length - 1; i++) {
       for (let j = 0; j < arrForBubbleSort.length - i - 1; j++) {
@@ -42,17 +45,19 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
               resolve();
             }, reverseSpeed); // Adjust the delay time as needed
           });
-          isSwapped = true;
+          //isSwapped = true;
         }
       }
 
-      if (isSwapped === false) break;
+      //if (isSwapped === false) break;
     }
 
     setSelectedBarIndex([null, null]);
+    setSortingInProgress(false);
   };
 
   const selectionSort = async () => {
+    setSortingInProgress(true);
     const arrForBubbleSort = [...bars];
 
     for (let i = 0; i < arrSize - 1; i++) {
@@ -60,7 +65,7 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
       for (let j = i + 1; j < arrSize; j++) {
         if (arrForBubbleSort[j] < arrForBubbleSort[min_idx]) {
           min_idx = j;
-        } 
+        }
       }
 
       [arrForBubbleSort[i], arrForBubbleSort[min_idx]] = [
@@ -78,6 +83,7 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
       });
     }
     setSelectedBarIndex([null, null]);
+    setSortingInProgress(false);
   };
 
   return (
@@ -92,14 +98,28 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
             style={{ height: `${value}px` }}
           />
         ))}
-        <div className="buttons">
-          <button onClick={generateArray} className="btn">
-            Generate Array
+        <button
+            onClick={generateArray}
+            className="btn-gen"
+          >
+            <LuRefreshCcw />
+            {/* Assuming LuRefreshCcw is your icon component */}
+            <span style={{ marginLeft: "0.5rem" }}>Generate Array</span>
           </button>
-          <button onClick={bubbleSort} className="btn">
+        <div className="buttons" >
+          
+          <button
+            disabled={sortingInProgress}
+            onClick={bubbleSort}
+            className="btn"
+          >
             Bubble Sort
           </button>
-          <button onClick={selectionSort} className="btn">
+          <button
+            disabled={sortingInProgress}
+            onClick={selectionSort}
+            className="btn"
+          >
             Selection Sort
           </button>
         </div>
