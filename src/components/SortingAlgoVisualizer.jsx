@@ -26,22 +26,21 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
 
   const bubbleSort = async () => {
     setSortingInProgress(true);
-    const arrForBubbleSort = [...bars];
+    const arrForSort = [...bars];
     //let isSwapped = false;
 
-    for (let i = 0; i < arrForBubbleSort.length - 1; i++) {
-      for (let j = 0; j < arrForBubbleSort.length - i - 1; j++) {
-        if (arrForBubbleSort[j] > arrForBubbleSort[j + 1]) {
-          [arrForBubbleSort[j], arrForBubbleSort[j + 1]] = [
-            arrForBubbleSort[j + 1],
-            arrForBubbleSort[j],
-          ];
-
+    for (let i = 0; i < arrForSort.length - 1; i++) {
+      for (let j = 0; j < arrForSort.length - i - 1; j++) {
+        if (arrForSort[j] > arrForSort[j + 1]) {
           setSelectedBarIndex([j, j + 1]);
+          [arrForSort[j], arrForSort[j + 1]] = [
+            arrForSort[j + 1],
+            arrForSort[j],
+          ];
 
           await new Promise((resolve) => {
             setTimeout(() => {
-              setBars([...arrForBubbleSort]);
+              setBars([...arrForSort]);
               resolve();
             }, reverseSpeed); // Adjust the delay time as needed
           });
@@ -58,26 +57,27 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
 
   const selectionSort = async () => {
     setSortingInProgress(true);
-    const arrForBubbleSort = [...bars];
+    const arrForSort = [...bars];
 
     for (let i = 0; i < arrSize - 1; i++) {
       let min_idx = i;
       for (let j = i + 1; j < arrSize; j++) {
-        if (arrForBubbleSort[j] < arrForBubbleSort[min_idx]) {
+        if (arrForSort[j] < arrForSort[min_idx]) {
           min_idx = j;
         }
       }
 
-      [arrForBubbleSort[i], arrForBubbleSort[min_idx]] = [
-        arrForBubbleSort[min_idx],
-        arrForBubbleSort[i],
+      setSelectedBarIndex([i, min_idx]);
+
+      [arrForSort[i], arrForSort[min_idx]] = [
+        arrForSort[min_idx],
+        arrForSort[i],
       ];
 
-      setSelectedBarIndex([i, min_idx]);
 
       await new Promise((resolve) => {
         setTimeout(() => {
-          setBars([...arrForBubbleSort]);
+          setBars([...arrForSort]);
           resolve();
         }, reverseSpeed);
       });
