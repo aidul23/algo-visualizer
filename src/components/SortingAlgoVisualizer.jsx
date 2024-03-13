@@ -86,6 +86,48 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
     setSortingInProgress(false);
   };
 
+  const insertionSort = async () => {
+    setSortingInProgress(true);
+    const arrForSort = [...bars];
+
+    let i ,j , curr;
+
+    for(i = 1 ; i < arrSize ; i++) {
+      curr = arrForSort[i];
+      j = i - 1;
+
+      setSelectedBarIndex([j, i]);
+
+      while(j >= 0 && curr < arrForSort[j]) {
+        arrForSort[j+1] = arrForSort[j];
+        j--;
+
+        // Update bars with a delay
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            setBars([...arrForSort]);
+            resolve();
+          }, reverseSpeed);
+        });
+      }
+
+      arrForSort[j + 1] = curr;
+
+      setSelectedBarIndex([null, null]);
+
+      // Update bars after each step
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          setBars([...arrForSort]);
+          resolve();
+        }, reverseSpeed);
+      });
+
+    }
+    
+    setSortingInProgress(false);
+  };
+
   return (
     <div className="container">
       <div className="bar-chart">
@@ -103,7 +145,6 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
             className="btn-gen"
           >
             <LuRefreshCcw />
-            {/* Assuming LuRefreshCcw is your icon component */}
             <span style={{ marginLeft: "0.5rem" }}>Generate Array</span>
           </button>
         <div className="buttons" >
@@ -121,6 +162,13 @@ function SortingAlgoVisualizer({ arrSize, viewSpeed }) {
             className="btn"
           >
             Selection Sort
+          </button>
+          <button
+            disabled={sortingInProgress}
+            onClick={insertionSort}
+            className="btn"
+          >
+            Insertion Sort
           </button>
         </div>
       </div>
